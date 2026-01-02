@@ -77,7 +77,7 @@ const GeneralUser = () => {
   };
 
   return (
-    <div className="text-black p-5 w-3/4 flex-col">
+    <div className="text-black p-3 md:p-5 w-full md:w-3/4 flex-col h-screen overflow-y-auto pb-20">
       <div className="border-2 bg-slate-900 flex justify-between w-full text-white rounded-lg p-3">
         <Link
           to={"/dashboard"}
@@ -89,7 +89,7 @@ const GeneralUser = () => {
 
       <div className="mt-5 text-xl text-slate-900">{header}</div>
 
-      <div className="bg-slate-100 p-5 mt-5 rounded-lg grid gap-2 grid-cols-3 overflow-x-auto h-[80%]">
+      <div className="bg-slate-100 p-3 md:p-5 mt-5 rounded-lg grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 overflow-y-auto h-[80%] pb-10">
         {data.map((item, index) => {
           if (type === "member") return <MemberCard key={index} item={item} />;
           if (type === "expense") return <ExpenseCard key={index} item={item} />;

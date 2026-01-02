@@ -92,7 +92,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="w-3/4 text-black p-5 relative">
+    <div className="w-full md:w-3/4 text-black p-3 md:p-5 relative overflow-y-auto h-full pb-20">
       <div className="w-full bg-slate-900 text-white rounded-lg flex p-3 justify-between items-center">
         <MenuIcon
           sx={{ cursor: "pointer" }}
@@ -146,15 +146,15 @@ const Dashboard = () => {
         </div>
       )}
 
-      <div className="mt-5 pt-3 bg-slate-100 bg-opacity-50 grid gap-5 grid-cols-3 w-full pb-5 overflow-x-auto h-[80%]">
+      <div className="mt-5 pt-3 bg-slate-100 bg-opacity-50 grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full pb-5">
         {/* this is the card block */}
         <Link
           to={"/member"}
-          className="w-full h-fit border-2 bg-white rounded-lg cursor-pointer"
+          className="w-full h-full border-2 bg-white rounded-lg cursor-pointer flex flex-col"
         >
           <div className="h-3 rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
-          <div className="py-7 px-5 flex-col justify-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white">
+          <div className="py-7 px-5 flex flex-col justify-center items-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white flex-grow">
             <PeopleAltIcon sx={{ color: "green", fontSize: "50px" }} />
             <p className="text-xl my-3 font-semibold font-mono">
               Joined Members
@@ -166,11 +166,11 @@ const Dashboard = () => {
         <Link
           to={"/specific/monthly"}
           onClick={() => handleOnClickMenu("monthlyJoined")}
-          className="w-full h-fit border-2 bg-white rounded-lg cursor-pointer"
+          className="w-full h-full border-2 bg-white rounded-lg cursor-pointer flex flex-col"
         >
           <div className="h-3 rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
-          <div className="py-7 px-5 flex-col justify-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white">
+          <div className="py-7 px-5 flex flex-col justify-center items-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white flex-grow">
             <SignalCellularAltIcon sx={{ color: "purple", fontSize: "50px" }} />
             <p className="text-xl my-3 font-semibold font-mono">
               Monthly Joined
@@ -182,11 +182,11 @@ const Dashboard = () => {
         <Link
           to={"/specific/expire-with-in-3-days"}
           onClick={() => handleOnClickMenu("threeDayExpire")}
-          className="w-full h-fit border-2 bg-white rounded-lg cursor-pointer"
+          className="w-full h-full border-2 bg-white rounded-lg cursor-pointer flex flex-col"
         >
           <div className="h-3 rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
-          <div className="py-7 px-5 flex-col justify-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white">
+          <div className="py-7 px-5 flex flex-col justify-center items-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white flex-grow">
             <AccessAlarmIcon sx={{ color: "red", fontSize: "50px" }} />
             <p className="text-xl my-3 font-semibold font-mono">
               Expiring Within 3 Days
@@ -198,11 +198,11 @@ const Dashboard = () => {
         <Link
           to={"/specific/expire-with-in-4-7-days"}
           onClick={() => handleOnClickMenu("fourToSevenDaysExpire")}
-          className="w-full h-fit border-2 bg-white rounded-lg cursor-pointer"
+          className="w-full h-full border-2 bg-white rounded-lg cursor-pointer flex flex-col"
         >
           <div className="h-3 rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
-          <div className="py-7 px-5 flex-col justify-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white">
+          <div className="py-7 px-5 flex flex-col justify-center items-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white flex-grow">
             <AccessAlarmIcon sx={{ color: "red", fontSize: "50px" }} />
             <p className="text-xl my-3 font-semibold font-mono">
               Expiring within 4-7 Days
@@ -214,11 +214,11 @@ const Dashboard = () => {
         <Link
           to={"/specific/expired"}
           onClick={() => handleOnClickMenu("expired")}
-          className="w-full h-fit border-2 bg-white rounded-lg cursor-pointer"
+          className="w-full h-full border-2 bg-white rounded-lg cursor-pointer flex flex-col"
         >
           <div className="h-3 rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
-          <div className="py-7 px-5 flex-col justify-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white">
+          <div className="py-7 px-5 flex flex-col justify-center items-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white flex-grow">
             <ErrorIcon sx={{ color: "red", fontSize: "50px" }} />
             <p className="text-xl my-3 font-semibold font-mono">Expired</p>
           </div>
@@ -228,11 +228,11 @@ const Dashboard = () => {
         <Link
           to={"/specific/inactive-members"}
           onClick={() => handleOnClickMenu("inActiveMembers")}
-          className="w-full h-fit border-2 bg-white rounded-lg cursor-pointer"
+          className="w-full h-full border-2 bg-white rounded-lg cursor-pointer flex flex-col"
         >
           <div className="h-3 rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
-          <div className="py-7 px-5 flex-col justify-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white">
+          <div className="py-7 px-5 flex flex-col justify-center items-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white flex-grow">
             <ReportIcon sx={{ color: "brown", fontSize: "50px" }} />
             <p className="text-xl my-3 font-semibold font-mono">
               InActive Members
@@ -242,10 +242,10 @@ const Dashboard = () => {
         <Link
           to={"/specific/expenses"}
           onClick={() => handleOnClickMenu("expenses")}
-          className="w-full h-fit border-2 bg-white rounded-lg cursor-pointer"
+          className="w-full h-full border-2 bg-white rounded-lg cursor-pointer flex flex-col"
         >
           <div className="h-3 rounded-t-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
-          <div className="py-7 px-5 flex-col justify-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white">
+          <div className="py-7 px-5 flex flex-col justify-center items-center w-full text-center rounded-b-lg hover:bg-slate-900 hover:text-white flex-grow">
             <PaidIcon sx={{ color: "gold", fontSize: "50px" }} />
             <p className="text-xl my-3 font-semibold font-mono">
               Total Expenses: {dashboardData.expenseCount}

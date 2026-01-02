@@ -32,15 +32,15 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-1/4 h-screen sticky top-0 border-2 bg-black text-white p-5 font-extralight flex flex-col">
-      <div className="text-center text-3xl">
-        {localStorage.getItem("gymName")}
+    <div className="w-full md:w-1/4 h-auto md:h-screen md:sticky top-0 border-b-2 md:border-b-0 md:border-r-2 md:border-gray-700 bg-black text-white p-3 md:p-5 font-extralight flex flex-row md:flex-col justify-between md:justify-start items-center md:items-stretch z-50">
+      <div className="text-xl md:text-3center font-bold md:font-normal truncate md:mb-5">
+        {localStorage.getItem("gymName").substring(0, 15)}
       </div>
-      <div className="flex gap-5 my-5">
+      <div className="hidden md:flex gap-5 my-5">
         <div className="w-[100px] h-[100px] rounded-lg">
           <img
             alt="gym pic"
-            className="w-full h-full rounded-full"
+            className="w-full h-full rounded-full object-cover"
             src={localStorage.getItem("gymPic")}
           />
         </div>
@@ -53,43 +53,43 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="mt-10 py-10 border-t-2 border-gray-700">
+      <div className="md:mt-10 md:py-10 md:border-t-2 md:border-gray-700 flex flex-row md:flex-col gap-2 md:gap-0">
         <Link
           to="/dashboard"
-          className={`flex gap-8 font-semibold text-xl bg-slate-800 p-3 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-black ${location.pathname === "/dashboard"
-            ? "border-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-            : null
+          className={`flex gap-2 md:gap-8 items-center font-semibold text-sm md:text-xl p-2 md:p-3 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-black ${location.pathname === "/dashboard"
+            ? "border-2 md:border-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            : "text-gray-400 md:text-white"
             }`}
         >
           <div>
-            <HomeIcon />
+            <HomeIcon fontSize="medium" />
           </div>
-          <div>Dashboard</div>
+          <div className="hidden md:block">Dashboard</div>
         </Link>
 
         <Link
           to="/member"
-          className={`flex gap-8 mt-5 font-semibold text-xl bg-slate-800 p-3 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-black ${location.pathname === "/member"
-            ? "border-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-            : null
+          className={`flex gap-2 md:gap-8 items-center md:mt-5 font-semibold text-sm md:text-xl p-2 md:p-3 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-black ${location.pathname === "/member"
+            ? "border-2 md:border-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            : "text-gray-400 md:text-white"
             }`}
         >
           <div>
-            <GroupIcon />
+            <GroupIcon fontSize="medium" />
           </div>
-          <div>Members</div>
+          <div className="hidden md:block">Members</div>
         </Link>
 
         <div
           onClick={() => {
             handleLogout();
           }}
-          className="flex gap-8 mt-5 font-semibold text-xl bg-slate-800 p-3 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-black"
+          className="flex gap-2 md:gap-8 items-center md:mt-5 font-semibold text-sm md:text-xl p-2 md:p-3 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-black text-gray-400 md:text-white"
         >
           <div>
-            <LogoutIcon />
+            <LogoutIcon fontSize="medium" />
           </div>
-          <div>Logout</div>
+          <div className="hidden md:block">Logout</div>
         </div>
       </div>
     </div>

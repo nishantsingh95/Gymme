@@ -152,7 +152,7 @@ const Member = () => {
         <ArrowBackIcon /> Back to Dashboard{" "}
       </Link>
 
-      <div className="mt-5 w-1/2 flex gap-2">
+      <div className="mt-5 w-full md:w-1/2 flex gap-2">
         <input
           type="text"
           value={search}
@@ -201,7 +201,7 @@ const Member = () => {
         ) : null}
       </div>
 
-      <div className="bg-slate-100 p-5 mt-5 rounded-lg grid gap-2 grid-cols-3 overflow-x-auto h-[65%]">
+      <div className="bg-slate-100 p-5 mt-5 rounded-lg grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 overflow-y-auto h-[65%]">
         {data.map((item, index) => {
           return <MemberCard item={item} />;
         })}
