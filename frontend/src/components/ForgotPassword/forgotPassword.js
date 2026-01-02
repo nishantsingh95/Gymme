@@ -93,30 +93,30 @@ const ForgotPassword = () => {
           type="email"
           value={inputField.email}
           onChange={(event) => handleOnChange(event, "email")}
-          className="w-full p-3 rounded-xl bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
+          className="w-full p-4 rounded-xl bg-gray-800 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner"
           placeholder="example@gmail.com"
         />
       </div>
       {emailSubmit && (
-        <div className="w-full mb-6">
-          <div className="text-gray-300 mb-2">Enter OTP</div>
+        <div className="w-full mb-6 relative">
+          <div className="text-gray-300 mb-2 font-medium">Enter OTP</div>
           <input
             type="text"
             value={inputField.otp}
             onChange={(event) => handleOnChange(event, "otp")}
-            className="w-full p-3 rounded-xl bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
+            className="w-full p-4 rounded-xl bg-gray-800 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner"
             placeholder="Enter OTP"
           />
         </div>
       )}
       {otpValidate && (
-        <div className="w-full mb-6">
-          <div className="text-gray-300 mb-2">New Password</div>
+        <div className="w-full mb-6 relative">
+          <div className="text-gray-300 mb-2 font-medium">New Password</div>
           <input
             type="password"
             value={inputField.newPassword}
             onChange={(event) => handleOnChange(event, "newPassword")}
-            className="w-full p-3 rounded-xl bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
+            className="w-full p-4 rounded-xl bg-gray-800 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner"
             placeholder="Enter new password"
           />
         </div>
