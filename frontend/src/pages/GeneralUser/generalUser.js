@@ -25,50 +25,53 @@ const GeneralUser = () => {
   }, []);
 
   const functionCall = async (func) => {
+    let datas;
     switch (func) {
       case "monthlyJoined":
         setHeader("Monthly Joined Members");
-        var datas = await getMonthlyJoined();
+        datas = await getMonthlyJoined();
         setData(datas.members);
         break;
 
       case "threeDayExpire":
         setHeader("Expiring In 3 Days Members");
-        var datas = await threeDayExpire();
+        datas = await threeDayExpire();
         setData(datas.members);
         break;
 
       case "fourToSevenDaysExpire":
         setHeader("Expiring In 4-7 Days Members");
-        var datas = await fourToSevenDaysExpire();
+        datas = await fourToSevenDaysExpire();
         setData(datas.members);
         break;
 
       case "expired":
         setHeader("Expired Members");
-        var datas = await expired();
+        datas = await expired();
         setData(datas.members);
         break;
 
       case "inActiveMembers":
         setHeader("InActive Members");
-        var datas = await inActiveMembers();
+        datas = await inActiveMembers();
         setData(datas.members);
         setType("member");
         break;
 
       case "expenses":
         setHeader("All Expenses");
-        var datas = await getExpenses();
+        datas = await getExpenses();
         setData(datas.expenses);
         setType("expense");
         break;
 
       case "outlets":
         setHeader("All Outlets");
-        var datas = await getOutlets();
+        datas = await getOutlets();
         setData(datas.outlets);
         setType("outlet");
+        break;
+      default:
         break;
     }
   };
