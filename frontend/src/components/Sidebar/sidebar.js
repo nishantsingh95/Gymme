@@ -32,7 +32,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-full md:w-1/4 h-auto md:h-screen md:sticky top-0 border-b-2 md:border-b-0 md:border-r-2 md:border-gray-700 bg-black text-white p-3 md:p-5 font-extralight flex flex-col justify-center md:justify-start items-center md:items-stretch z-50">
+    <div className="w-full md:w-1/4 h-auto md:h-screen md:sticky top-0 border-b-2 md:border-b-0 md:border-r-2 md:border-gray-700 bg-black text-white pt-8 pb-3 px-3 md:p-5 font-extralight flex flex-col justify-center md:justify-start items-center md:items-stretch z-50">
 
       {/* Branding - Centered */}
       <div className="text-2xl md:text-3center font-bold md:font-normal truncate mb-2 md:mb-5 text-center">
@@ -62,8 +62,8 @@ const Sidebar = () => {
         <Link
           to="/dashboard"
           className={`flex gap-2 md:gap-8 items-center font-semibold text-sm md:text-xl p-2 md:p-3 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-black ${location.pathname === "/dashboard"
-              ? "border-2 md:border-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-              : "text-gray-400 md:text-white"
+            ? "border-2 md:border-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            : "text-gray-400 md:text-white"
             }`}
         >
           <div>
@@ -75,8 +75,8 @@ const Sidebar = () => {
         <Link
           to="/member"
           className={`flex gap-2 md:gap-8 items-center md:mt-5 font-semibold text-sm md:text-xl p-2 md:p-3 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:text-black ${location.pathname === "/member"
-              ? "border-2 md:border-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-              : "text-gray-400 md:text-white"
+            ? "border-2 md:border-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            : "text-gray-400 md:text-white"
             }`}
         >
           <div>

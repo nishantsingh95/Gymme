@@ -87,55 +87,49 @@ const ForgotPassword = () => {
 
   return (
     <div className="w-full">
-      <div className="w-full mb-5">
-        <div>Enter Your Email</div>
+      <div className="w-full mb-6">
+        <div className="text-gray-300 mb-2">Enter Your Email</div>
         <input
-          type="text"
+          type="email"
           value={inputField.email}
-          onChange={(event) => {
-            handleOnChange(event, "email");
-          }}
-          className="w-1/2 p-2 rounded-lg border-2 border-slate-400"
-          placeholder="Enter Email"
+          onChange={(event) => handleOnChange(event, "email")}
+          className="w-full p-3 rounded-xl bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
+          placeholder="example@gmail.com"
         />
       </div>
       {emailSubmit && (
-        <div className="w-full mb-5">
-          <div>Enter Your OTP</div>
+        <div className="w-full mb-6">
+          <div className="text-gray-300 mb-2">Enter OTP</div>
           <input
             type="text"
             value={inputField.otp}
-            onChange={(event) => {
-              handleOnChange(event, "otp");
-            }}
-            className="w-1/2 p-2 rounded-lg border-2 border-slate-400"
+            onChange={(event) => handleOnChange(event, "otp")}
+            className="w-full p-3 rounded-xl bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
             placeholder="Enter OTP"
           />
         </div>
       )}
       {otpValidate && (
-        <div className="w-full mb-5">
-          <div>Enter Your New Password</div>
+        <div className="w-full mb-6">
+          <div className="text-gray-300 mb-2">New Password</div>
           <input
             type="password"
             value={inputField.newPassword}
-            onChange={(event) => {
-              handleOnChange(event, "newPassword");
-            }}
-            className="w-1/2 p-2 rounded-lg border-2 border-slate-400"
+            onChange={(event) => handleOnChange(event, "newPassword")}
+            className="w-full p-3 rounded-xl bg-white bg-opacity-10 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 transition-colors"
             placeholder="Enter new password"
           />
         </div>
       )}
 
       <div
-        className="bg-slate-800 text-white mx-auto w-2/3 p-3 rounded-lg text-center font-semibold cursor-pointer border-2 hover:bg-white hover:text-black"
+        className="w-full py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-xl text-white text-center text-lg font-bold cursor-pointer hover:opacity-90 transition-opacity shadow-lg mt-4"
         onClick={() => handleSubmit()}
       >
         {contentVal}
       </div>
       {loader && <Loader />}
-      <ToastContainer />
+      <ToastContainer theme="dark" />
     </div>
   );
 };
