@@ -41,14 +41,18 @@ const GymRoutes = require("./Routes/gym");
 const MembershipRoutes = require("./Routes/membership");
 const MemberRoutes = require("./Routes/member");
 
-app.use("/auth", GymRoutes);
-app.use("/plans", MembershipRoutes);
-app.use("/members", MemberRoutes);
+const router = express.Router();
+router.use("/auth", GymRoutes);
+router.use("/plans", MembershipRoutes);
+router.use("/members", MemberRoutes);
 const GeneralRoutes = require("./Routes/general");
-app.use("/general", GeneralRoutes);
+router.use("/general", GeneralRoutes);
 
 const AiRoutes = require("./Routes/ai");
-app.use("/ai", AiRoutes);
+router.use("/ai", AiRoutes);
+
+app.use("/.netlify/functions/api", router);
+app.use("/", router);
 
 const { startCronJobs } = require("./cron");
 startCronJobs();
