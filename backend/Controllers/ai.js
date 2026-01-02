@@ -55,61 +55,51 @@ exports.chatWithAI = async (req, res) => {
     - If you don't know, say "I am not sure about that specific feature, but you can check the Dashboard."
     `;
 
-        // List of models to try in order of preference
-        const modelsToTry = ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
+        // Single reliable model to prevent quota exhaustion from retries
+        const modelName = "gemini-1.5-flash";
 
-        let chatSession = null;
-        let modelNameUsed = "";
-        let lastError = null;
+        try {
+            console.log(`Attempting to use model: ${modelName}`);
+            const model = genAI.getGenerativeModel({ model: modelName });
 
-        // Iterate through models until one works
-        for (const modelName of modelsToTry) {
-            try {
-                console.log(`Attempting to use model: ${modelName}`);
-                const model = genAI.getGenerativeModel({ model: modelName });
+            const chat = model.startChat({
+                history: [
+                    {
+                        role: "user",
+                        parts: [{ text: systemInstruction }],
+                    },
+                    {
+                        role: "model",
+                        parts: [{ text: "Understood. I am ready to assist the Fitby Admin." }],
+                    },
+                ],
+            });
 
-                const chat = model.startChat({
-                    history: [
-                        {
-                            role: "user",
-                            parts: [{ text: systemInstruction }],
-                        },
-                        {
-                            role: "model",
-                            parts: [{ text: "Understood. I am ready to assist the Fitby Admin." }],
-                        },
-                    ],
-                });
+            // Test the model with the actual message to ensure it works
+            const result = await chat.sendMessage(message);
+            const response = await result.response;
+            const text = response.text();
 
-                // Test the model with the actual message to ensure it works
-                const result = await chat.sendMessage(message);
-                const response = await result.response;
-                const text = response.text();
+            console.log("AI Response Success from model:", modelName);
 
-                console.log("AI Response Success from model:", modelName);
+            // If successful, send response and exit function
+            return res.status(200).json({ reply: text });
 
-                // If successful, send response and exit function
-                return res.status(200).json({ reply: text });
+        } catch (e) {
+            console.log(`Model ${modelName} failed:`, e.message);
 
-            } catch (e) {
-                console.log(`Model ${modelName} failed:`, e.message);
-                lastError = e;
-                // Continue to next model
-            }
+            const status = e.message.includes("429") ? 429 : 500;
+            const errorMessage = status === 429
+                ? "AI Rate Limit Exceeded. Please try again later."
+                : "AI Service Unavailable. Please check Admin Logs.";
+
+            res.status(status).json({
+                error: errorMessage,
+                details: e.message
+            });
         }
 
-        // If all models fail
-        console.error("All AI models failed. Last Error:", lastError);
 
-        const status = lastError && lastError.message.includes("429") ? 429 : 500;
-        const errorMessage = status === 429
-            ? "AI Rate Limit Exceeded. Please try again in 1 minute."
-            : "AI Service Unavailable. Please check Admin Logs.";
-
-        res.status(status).json({
-            error: errorMessage,
-            details: lastError ? lastError.message : "No models available"
-        });
 
     } catch (error) {
         console.error("AI Chat Critical Error (Wrapper):", error);
