@@ -117,67 +117,91 @@ const MemberDetail = () => {
   };
 
   return (
-    <div className="w-3/4 text-black p-5">
+    <div className="w-full md:w-3/4 text-black p-3 md:p-5 mb-20 md:mb-0 h-screen overflow-y-auto">
       <div
         onClick={() => {
           navigate(-1);
         }}
-        className="border-2 w-fit text-xl font-sans text-white p-2 rounded-xl bg-slate-900 cursor-pointer"
+        className="border-2 w-fit text-sm md:text-xl font-sans text-white p-2 rounded-xl bg-slate-900 cursor-pointer hover:bg-slate-700 transition-colors"
       >
-        <ArrowBackIcon /> Go Back
+        <ArrowBackIcon fontSize="small" /> Go Back
       </div>
 
-      <div className="mt-10 p-2">
-        <div className="w-[100%] h-fit flex">
-          <div className="w-1/3 mx-auto">
-            <img
-              src={data?.profilePic}
-              className="w-full mx-auto"
-              alt="Member"
-            />
-          </div>
-
-          <div className="w-2/3 mt-5 text-xl p-5">
-            <div className="mt-1 mb-2 text-2xl font-semibold">
-              Name : {data?.name}
-            </div>
-            <div className="mt-1 mb-2 text-2xl font-semibold">
-              Mobile : {data?.mobileNo}
-            </div>
-            <div className="mt-1 mb-2 text-2xl font-semibold">
-              Address : {data?.address}
-            </div>
-            <div className="mt-1 mb-2 text-2xl font-semibold">
-              Joined Date :{" "}
-              {(data?.joiningDate || data?.createdAt)
-                ?.slice(0, 10)
-                .split("-")
-                .reverse()
-                .join("-")}
-            </div>
-            <div className="mt-1 mb-2 text-2xl font-semibold">
-              Next Bill Date :{" "}
-              {data?.nextBillDate.slice(0, 10).split("-").reverse().join("-")}
-            </div>
-            <div className="mt-1 mb-2 text-2xl font-semibold">
-              Shift : {data?.slotTiming || "Not Set"}
-            </div>
-            <div className="mt-1 mb-2 flex gap-4 text-2xl font-semibold">
-              Status :{" "}
-              <Switch
-                onColor="#6366F1"
-                checked={status === "Active"}
-                onChange={handleSwitchBtn}
+      <div className="mt-5 md:mt-10 p-2 bg-white rounded-lg shadow-sm border border-slate-100">
+        <div className="w-full h-fit flex flex-col md:flex-row gap-6 md:gap-0">
+          <div className="w-full md:w-1/3 flex justify-center items-start pt-5">
+            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-slate-100 shadow-lg">
+              <img
+                src={data?.profilePic}
+                className="w-full h-full object-cover"
+                alt="Member"
               />
             </div>
+          </div>
 
-            <div className="flex gap-4 w-full md:w-1/2 mt-1">
+          <div className="w-full md:w-2/3 md:mt-5 text-sm md:text-xl p-2 md:p-5">
+            <div className="grid grid-cols-1 gap-4">
+              <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span className="text-gray-500 block text-xs md:text-sm uppercase tracking-wide">Name</span>
+                <span className="text-lg md:text-2xl font-bold text-slate-800 break-words">{data?.name}</span>
+              </div>
+
+              <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span className="text-gray-500 block text-xs md:text-sm uppercase tracking-wide">Mobile</span>
+                <span className="text-lg md:text-2xl font-bold text-slate-800">{data?.mobileNo}</span>
+              </div>
+
+              <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span className="text-gray-500 block text-xs md:text-sm uppercase tracking-wide">Address</span>
+                <span className="text-lg md:text-2xl font-bold text-slate-800 break-words">{data?.address}</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                  <span className="text-gray-500 block text-xs md:text-sm uppercase tracking-wide">Joined</span>
+                  <span className="text-base md:text-xl font-semibold text-slate-800">
+                    {(data?.joiningDate || data?.createdAt)
+                      ?.slice(0, 10)
+                      .split("-")
+                      .reverse()
+                      .join("-")}
+                  </span>
+                </div>
+                <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                  <span className="text-gray-500 block text-xs md:text-sm uppercase tracking-wide">Next Bill</span>
+                  <span className="text-base md:text-xl font-semibold text-slate-800">
+                    {data?.nextBillDate?.slice(0, 10).split("-").reverse().join("-")}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <div>
+                  <span className="text-gray-500 block text-xs md:text-sm uppercase tracking-wide">Status</span>
+                  <span className={`text-base md:text-xl font-bold ${status === "Active" ? "text-green-600" : "text-red-500"}`}>
+                    {status}
+                  </span>
+                </div>
+                <Switch
+                  onColor="#6366F1"
+                  checked={status === "Active"}
+                  onChange={handleSwitchBtn}
+                />
+              </div>
+
+              <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span className="text-gray-500 block text-xs md:text-sm uppercase tracking-wide">Shift</span>
+                <span className="text-base md:text-xl font-semibold text-slate-800">{data?.slotTiming || "Not Set"}</span>
+              </div>
+            </div>
+
+            <div className="flex gap-4 w-full mt-6">
               <div
                 onClick={() => setRenew((prev) => !prev)}
-                className={`flex-1 rounded-lg p-3 border-2 border-slate-900 text-center ${renew && status === "Active"
-                  ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white"
-                  : ""
-                  } cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500`}
+                className={`flex-1 rounded-xl p-3 md:p-4 border-2 border-slate-900 text-center font-bold transition-all transform active:scale-95 ${renew && status === "Active"
+                  ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-transparent"
+                  : "hover:bg-slate-100"
+                  } cursor-pointer`}
               >
                 Renew
               </div>
@@ -192,46 +216,49 @@ const MemberDetail = () => {
                       .catch(() => toast.error("Failed to delete member"));
                   }
                 }}
-                className="flex-1 rounded-lg p-3 border-2 border-red-600 text-red-600 text-center cursor-pointer hover:bg-red-600 hover:text-white"
+                className="flex-1 rounded-xl p-3 md:p-4 border-2 border-red-500 text-red-500 text-center font-bold cursor-pointer hover:bg-red-500 hover:text-white transition-all transform active:scale-95"
               >
                 Delete
               </div>
             </div>
 
             {renew && status === "Active" ? (
-              <div className="rounded-lg p-3 mt-5 mb-5 h-fit bg-slate-50 w-[100%]">
+              <div className="rounded-xl p-5 mt-5 mb-5 bg-white border border-indigo-100 shadow-lg w-full">
                 <div className="w-full">
-                  <div className="my-5">
-                    <div>Membership</div>
+                  <div className="my-2">
+                    <div className="font-bold text-lg mb-2 text-indigo-900">Renew Membership</div>
+                    <label className="text-sm text-gray-500 mb-1 block">Select Plan</label>
                     <select
                       value={planMember}
                       onChange={handleOnChangeSelect}
-                      className="w-full border-2 p-2 rounded-lg"
+                      className="w-full border p-3 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
                       {membership.map((item, index) => {
                         return (
-                          <option value={item._id}>
+                          <option key={index} value={item._id}>
                             {item.months} Months Membership
                           </option>
                         );
                       })}
                     </select>
-                    <div className="mt-3">
-                      <div>Joining Date (Start Date)</div>
+
+                    <div className="mt-4">
+                      <label className="text-sm text-gray-500 mb-1 block">Joining Date (Start Date)</label>
                       <input
                         type="date"
                         value={renewDate}
                         onChange={(e) => setRenewDate(e.target.value)}
-                        className="w-full border-2 p-2 rounded-lg"
+                        className="w-full border p-3 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                       />
                     </div>
+
                     <div
-                      className="mt-3 rounded-lg p-3 border-2 border-slate-900 text-center w-1/2 mx-auto cursor-pointer hover:text-white hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                      className="mt-6 rounded-lg p-3 bg-slate-900 text-white text-center w-full font-bold cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all shadow-md"
                       onClick={() => {
                         handleRenewSaveBtn();
                       }}
                     >
-                      Save
+                      Confirm Renewal
                     </div>
                   </div>
                 </div>
