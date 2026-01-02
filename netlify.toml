@@ -2,6 +2,8 @@
   command = "CI=false npm run build"
   publish = "frontend/build"
   functions = "functions"
+  [build.environment]
+    NODE_ENV = "production"
 
 [functions]
   node_bundler = "esbuild"
