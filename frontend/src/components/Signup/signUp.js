@@ -44,7 +44,10 @@ const SignUp = ({ handleToggle }) => {
         data
       );
       console.log(response);
-      const imageUrl = response.data.url;
+      let imageUrl = response.data.url;
+      if (imageUrl.startsWith("http:")) {
+        imageUrl = imageUrl.replace("http:", "https:");
+      }
       setLoaderImage(false);
       setInputField({ ...inputField, ["profilePic"]: imageUrl });
     } catch (err) {
@@ -54,8 +57,11 @@ const SignUp = ({ handleToggle }) => {
   };
 
   const handleRegister = async () => {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+    console.log("DEBUG: Attempting Register with API URL:", apiUrl);
+
     await axios
-      .post(`${process.env.REACT_APP_API_URL || 'http://localhost:4000'}/auth/register`, inputField)
+      .post(`${apiUrl}/auth/register`, inputField)
       .then((resp) => {
         const successMsg = resp.data.message;
         toast.success(successMsg);
