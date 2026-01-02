@@ -2,11 +2,29 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 exports.chatWithAI = async (req, res) => {
     try {
+        console.log("AI Chat Request Received");
+
+        // Debug Logging
+        if (process.env.GEMINI_API_KEY) {
+            console.log("API Key Present: Yes (Length: " + process.env.GEMINI_API_KEY.length + ")");
+            // Log first 4 chars for verification without exposing full key
+            console.log("API Key Start: " + process.env.GEMINI_API_KEY.substring(0, 4) + "...");
+        } else {
+            console.error("API Key Present: NO - Environment Variable Missing");
+        }
+
+        console.log("Request Body:", JSON.stringify(req.body));
         const { message } = req.body;
+
+        if (!message) {
+            console.error("No message provided in body");
+            return res.status(400).json({ error: "Message is required" });
+        }
 
         // Check for API Key
         if (!process.env.GEMINI_API_KEY) {
-            return res.status(500).json({ error: "API Key not configured on server." });
+            console.error("Critical: GEMINI_API_KEY is undefined on the server.");
+            return res.status(500).json({ error: "API Key not configured on server (Check Netlify Env Vars)." });
         }
 
         // Trim key to remove accidental spaces
@@ -68,6 +86,8 @@ exports.chatWithAI = async (req, res) => {
                 const response = await result.response;
                 const text = response.text();
 
+                console.log("AI Response Success from model:", modelName);
+
                 // If successful, send response and exit function
                 return res.status(200).json({ reply: text });
 
@@ -79,14 +99,14 @@ exports.chatWithAI = async (req, res) => {
         }
 
         // If all models fail
-        console.error("All AI models failed.");
+        console.error("All AI models failed. Last Error:", lastError);
         res.status(500).json({
-            error: "AI Service Unavailable. Please check your API Key permissions or try again later.",
+            error: "AI Service Unavailable. Please check Admin Logs for details.",
             details: lastError ? lastError.message : "No models available"
         });
 
     } catch (error) {
-        console.error("AI Chat Critical Error:", error);
+        console.error("AI Chat Critical Error (Wrapper):", error);
         res.status(500).json({ error: "Internal Server Error during AI Chat." });
     }
 };
