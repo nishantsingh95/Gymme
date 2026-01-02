@@ -42,9 +42,12 @@ const Chatbot = () => {
             setMessages((prev) => [...prev, botMessage]);
         } catch (error) {
             console.error("Chat Error:", error);
+            const serverMsg = error.response?.data?.error;
+            const fallbackMsg = "Sorry, I am having trouble connecting. Please check your API Key or try again later.";
+
             const errorMessage = {
                 role: "bot",
-                text: "Sorry, I am having trouble connecting to the server. Please check your API Key or try again later.",
+                text: serverMsg || fallbackMsg,
             };
             setMessages((prev) => [...prev, errorMessage]);
         } finally {

@@ -100,8 +100,14 @@ exports.chatWithAI = async (req, res) => {
 
         // If all models fail
         console.error("All AI models failed. Last Error:", lastError);
-        res.status(500).json({
-            error: "AI Service Unavailable. Please check Admin Logs for details.",
+
+        const status = lastError && lastError.message.includes("429") ? 429 : 500;
+        const errorMessage = status === 429
+            ? "AI Rate Limit Exceeded. Please try again in 1 minute."
+            : "AI Service Unavailable. Please check Admin Logs.";
+
+        res.status(status).json({
+            error: errorMessage,
             details: lastError ? lastError.message : "No models available"
         });
 
