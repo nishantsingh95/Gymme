@@ -37,8 +37,8 @@ exports.chatWithAI = async (req, res) => {
     - If you don't know, say "I am not sure about that specific feature, but you can check the Dashboard."
     `;
 
-        // List of models to try in order of preference (Based on available_models.txt)
-        const modelsToTry = ["gemini-2.0-flash", "gemini-flash-latest", "gemini-2.0-flash-lite"];
+        // List of models to try in order of preference
+        const modelsToTry = ["gemini-1.5-flash", "gemini-pro", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
 
         let chatSession = null;
         let modelNameUsed = "";
