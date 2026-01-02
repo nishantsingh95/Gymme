@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import "./signUp.css";
 import Modal from "../Modal/modal";
-import ForgotPassword from "../ForgotPassword/forgotPassword";
 import axios from "axios";
 import Stack from "@mui/material/Stack";
 import LinearProgress from "@mui/material/LinearProgress";
 import { ToastContainer, toast } from "react-toastify";
 
 const SignUp = ({ handleToggle }) => {
-  const [forgotPassword, setForgotPassword] = useState(false);
   const [inputField, setInputField] = useState({
     gymName: "",
     email: "",
@@ -19,26 +17,70 @@ const SignUp = ({ handleToggle }) => {
   });
   const [loaderImage, setLoaderImage] = useState(false);
 
-  const handleClose = () => {
-    setForgotPassword((prev) => !prev);
-  };
-
   const handleOnChange = (event, name) => {
     setInputField({ ...inputField, [name]: event.target.value });
   };
 
+  // Image Compression Utility
+  const compressImage = (file) => {
+    return new Promise((resolve) => {
+      const MAX_WIDTH = 800; // Max width for the image
+      const QUALITY = 0.7; // Quality (0 to 1)
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              const compressedFile = new File([blob], file.name, {
+                type: "image/jpeg",
+                lastModified: Date.now(),
+              });
+              resolve(compressedFile);
+            },
+            "image/jpeg",
+            QUALITY
+          );
+        };
+      };
+    });
+  };
+
   const uploadImage = async (event) => {
     setLoaderImage(true);
-    console.log("image uploading");
+    console.log("Processing image...");
     const files = event.target.files;
-    const data = new FormData();
-    data.append("file", files[0]);
-
-    // ddtxroaol
-
-    data.append("upload_preset", "gym-management");
+    if (!files || files.length === 0) {
+      setLoaderImage(false);
+      return;
+    }
 
     try {
+      // Compress the image before uploading
+      const compressedFile = await compressImage(files[0]);
+      console.log("Image compressed. Original:", files[0].size, "Compressed:", compressedFile.size);
+
+      const data = new FormData();
+      data.append("file", compressedFile);
+      data.append("upload_preset", "gym-management");
+
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/ddtxroaol/image/upload",
         data
@@ -50,8 +92,10 @@ const SignUp = ({ handleToggle }) => {
       }
       setLoaderImage(false);
       setInputField({ ...inputField, ["profilePic"]: imageUrl });
+      toast.success("Image Uploaded");
     } catch (err) {
       console.log(err);
+      toast.error("Image Upload Failed");
       setLoaderImage(false);
     }
   };
@@ -68,8 +112,10 @@ const SignUp = ({ handleToggle }) => {
         handleToggle();
       })
       .catch((err) => {
-        const errorMessage = err.response.data.error;
-        // console.log(errorMessage)
+        const errorMessage =
+          err.response && err.response.data && err.response.data.error
+            ? err.response.data.error
+            : "Registration Failed: Network Error";
         toast.error(errorMessage);
       });
   };
@@ -116,8 +162,10 @@ const SignUp = ({ handleToggle }) => {
           className="w-full mb-4 p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-gray-300 border border-gray-500 focus:outline-none focus:border-white transition-colors"
           placeholder="Enter Password"
         />
+        <div className="mb-2 text-white text-sm">Upload Profile Pic:</div>
         <input
           type="file"
+          accept="image/*"
           onChange={(e) => {
             uploadImage(e);
           }}
@@ -133,6 +181,7 @@ const SignUp = ({ handleToggle }) => {
         <img
           src={inputField.profilePic}
           className="mb-6 h-[150px] w-full object-cover rounded-xl"
+          alt="profile"
         />
 
         <div
@@ -140,12 +189,6 @@ const SignUp = ({ handleToggle }) => {
           onClick={() => handleRegister()}
         >
           Register
-        </div>
-        <div
-          className="mt-4 text-center text-gray-300 cursor-pointer hover:text-white underline"
-          onClick={() => handleClose()}
-        >
-          Forgot Password?
         </div>
       </div>
       <div className="mt-6 text-center text-gray-300">
@@ -157,13 +200,6 @@ const SignUp = ({ handleToggle }) => {
           Login
         </span>
       </div>
-      {forgotPassword && (
-        <Modal
-          header="Forgot Password"
-          handleClose={handleClose}
-          content={<ForgotPassword />}
-        />
-      )}
       <ToastContainer theme="dark" />
     </div>
   );

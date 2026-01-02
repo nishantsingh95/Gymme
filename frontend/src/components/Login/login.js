@@ -2,18 +2,27 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import Modal from "../Modal/modal";
+import ForgotPassword from "../ForgotPassword/forgotPassword";
+
 const Login = ({ handleToggle }) => {
   const [loginField, setLoginField] = useState({ userName: "", password: "" });
+  const [forgotPassword, setForgotPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    // sessionStorage.setItem("isLogin",true)
-    // navigate('/dashboard')
+  const handleClose = () => {
+    setForgotPassword((prev) => !prev);
+  };
 
+  const handleLogin = async () => {
     await axios
-      .post(`${process.env.REACT_APP_API_URL || 'http://localhost:4000'}/auth/login`, loginField, {
-        withCredentials: true,
-      })
+      .post(
+        `${process.env.REACT_APP_API_URL || "http://localhost:4000"}/auth/login`,
+        loginField,
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("gymName", response.data.gym.gymName);
@@ -26,9 +35,13 @@ const Login = ({ handleToggle }) => {
         navigate("/dashboard");
       })
       .catch((err) => {
-        const errorMessage = err.response.data.error;
-        // console.log(errorMessage)
+        // Fix for "Cannot read properties of undefined"
+        const errorMessage =
+          err.response && err.response.data && err.response.data.error
+            ? err.response.data.error
+            : "Network Error or Server not reachable";
         toast.error(errorMessage);
+        console.error(err);
       });
   };
 
@@ -67,6 +80,14 @@ const Login = ({ handleToggle }) => {
       >
         Login
       </div>
+
+      <div
+        className="mt-4 text-center text-gray-300 cursor-pointer hover:text-white underline"
+        onClick={() => handleClose()}
+      >
+        Forgot Password?
+      </div>
+
       <div className="mt-6 text-center text-gray-300">
         Don't have an account?{" "}
         <span
@@ -76,6 +97,13 @@ const Login = ({ handleToggle }) => {
           Sign Up
         </span>
       </div>
+      {forgotPassword && (
+        <Modal
+          header="Forgot Password"
+          handleClose={handleClose}
+          content={<ForgotPassword />}
+        />
+      )}
       <ToastContainer theme="dark" />
     </div>
   );
