@@ -61,29 +61,28 @@ const AddmemberShip = ({ handleClose }) => {
         })}
       </div>
       <hr className="mt-10 mb-10" />
-      <div className="flex gap-10 mb-10">
+      <div className="flex gap-4 mb-10 items-center">
         <input
           value={inputField.months}
           onChange={(event) => handleOnChange(event, "months")}
-          className="border-2 rounded-lg text-lg w-1/3 h-1/2 p-2"
+          className="border-2 rounded-lg text-lg flex-1 p-2"
           type="number"
-          placeholder="Add No. of Months"
+          placeholder="No. of Months"
         />
         <input
           value={inputField.price}
           onChange={(event) => handleOnChange(event, "price")}
-          className="border-2 rounded-lg text-lg w-1/3 h-1/2 p-2"
+          className="border-2 rounded-lg text-lg flex-1 p-2"
           type="number"
-          placeholder="Add Price"
+          placeholder="Price"
         />
         <div
           onClick={() => {
             handleAddmembership();
           }}
-          className="text-lg border-2 p-1 w-auto mt-0 rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+          className="text-lg border-2 p-2 w-auto whitespace-nowrap rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center"
         >
-          {" "}
-          Add +{" "}
+          Add +
         </div>
       </div>
       <ToastContainer />
