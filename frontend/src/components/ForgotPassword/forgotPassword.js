@@ -3,7 +3,7 @@ import Loader from "../Loader/loader";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ handleClose }) => {
   const [emailSubmit, setEmailSubmit] = useState(false);
   const [otpValidate, setOtpValidate] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -34,6 +34,7 @@ const ForgotPassword = () => {
       .then((response) => {
         toast.success(response.data.message);
         setLoader(false);
+        if (handleClose) handleClose();
       })
       .catch((err) => {
         toast.error("Some technical issue while sending Mail");

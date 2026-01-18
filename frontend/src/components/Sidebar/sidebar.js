@@ -28,7 +28,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     localStorage.clear();
-    navigate("/");
+    window.location.href = "/";
   };
 
   return (

@@ -120,7 +120,7 @@ const Login = ({ handleToggle }) => {
         <Modal
           header="Forgot Password"
           handleClose={handleClose}
-          content={<ForgotPassword />}
+          content={<ForgotPassword handleClose={handleClose} />}
         />
       )}
       <ToastContainer theme="dark" />
