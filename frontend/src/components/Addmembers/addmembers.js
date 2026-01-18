@@ -3,6 +3,7 @@ import axios from "axios";
 import Stack from "@mui/material/Stack";
 import LinearProgress from "@mui/material/LinearProgress";
 import { ToastContainer, toast } from "react-toastify";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 const Addmembers = () => {
   const [inputField, setInputField] = useState({
@@ -141,17 +142,20 @@ const Addmembers = () => {
           type="text"
           className="border-2 w-[90%] pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
         />
-        <input
-          value={inputField.joiningDate}
-          onChange={(event) => {
-            handleOnChange(event, "joiningDate");
-          }}
-          placeholder="Joining Date"
-          type="text"
-          onFocus={(e) => (e.target.type = "date")}
-          onBlur={(e) => (e.target.type = "text")}
-          className="border-2 w-[90%] pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
-        />
+        <div className="relative w-[90%]">
+          <input
+            value={inputField.joiningDate}
+            onChange={(event) => {
+              handleOnChange(event, "joiningDate");
+            }}
+            placeholder="Joining Date"
+            type="text"
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => (e.target.type = "text")}
+            className="border-2 w-full pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
+          />
+          <CalendarMonthIcon className="absolute right-3 top-3 text-gray-500 pointer-events-none" />
+        </div>
 
         <select
           value={selectedOption}

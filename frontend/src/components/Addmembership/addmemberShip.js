@@ -80,7 +80,7 @@ const AddmemberShip = ({ handleClose }) => {
           onClick={() => {
             handleAddmembership();
           }}
-          className="text-lg border-2 p-2 w-full whitespace-nowrap rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-center"
+          className="text-lg border-2 p-2 w-full whitespace-nowrap rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-center text-white"
         >
           Add +
         </div>
