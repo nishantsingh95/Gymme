@@ -69,12 +69,61 @@ const runStatusUpdate = async () => {
     }
 };
 
+const runExpiredMembersReminder = async () => {
+    console.log("Running expired members reminder cron job...");
+    try {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Find members whose membership has already expired
+        const expiredMembers = await Member.find({
+            status: "Inactive",
+            nextBillDate: { $lt: today }
+        });
+
+        console.log(`Found ${expiredMembers.length} members with expired memberships.`);
+
+        for (const member of expiredMembers) {
+            if (member.email) {
+                const daysExpired = Math.floor((today - new Date(member.nextBillDate)) / (1000 * 60 * 60 * 24));
+                const subject = "Membership Expired - Renewal Required";
+                const html = `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+                <h2 style="color: #d32f2f;">Membership Expired</h2>
+                <p>Hello <strong>${member.name}</strong>,</p>
+                <p>Your gym membership expired on <strong>${new Date(member.nextBillDate).toLocaleDateString()}</strong> (${daysExpired} day${daysExpired > 1 ? 's' : ''} ago).</p>
+                <p style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0;">
+                    <strong>⚠️ Action Required:</strong> Please renew your membership to continue enjoying our gym facilities and services.
+                </p>
+                <p>To renew your membership, please contact us or visit the gym at your earliest convenience.</p>
+                <p style="margin-top: 30px;">Best regards,<br/><strong>Gym Management Team</strong></p>
+            </div>
+        `;
+                await sendEmail(member.email, subject, html);
+                console.log(`Sent expired membership reminder to ${member.email}`);
+            }
+        }
+        return { message: "Expired members reminder completed", count: expiredMembers.length };
+    } catch (error) {
+        console.error("Error in expired members reminder cron job:", error);
+        throw error;
+    }
+};
+
 const startCronJobs = () => {
-    // Run every day at 9:00 AM
+    // Run every day at 9:00 AM - Check for memberships expiring within 3 days
     cron.schedule("0 9 * * *", runExpiryCheck);
+
+    // Run every day at 10:00 AM - Send reminders for already expired memberships
+    cron.schedule("0 10 * * *", runExpiredMembersReminder);
 
     // Run every day at 12:00 AM to check for expired members and set them to Inactive
     cron.schedule("0 0 * * *", runStatusUpdate);
+
+    console.log("✅ Cron jobs scheduled:");
+    console.log("   - 9:00 AM: Expiry check (3 days before)");
+    console.log("   - 10:00 AM: Expired members reminder");
+    console.log("   - 12:00 AM: Status update (Active → Inactive)");
 };
 
-module.exports = { startCronJobs, runExpiryCheck, runStatusUpdate };
+module.exports = { startCronJobs, runExpiryCheck, runStatusUpdate, runExpiredMembersReminder };
