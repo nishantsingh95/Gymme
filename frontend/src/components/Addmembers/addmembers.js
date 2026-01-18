@@ -190,19 +190,16 @@ const Addmembers = () => {
                   onChange={(event) => {
                     handleOnChange(event, "joiningDate");
                   }}
-                  type="text"
-                  onFocus={(e) => {
-                    e.target.type = "date";
-                  }}
-                  onBlur={(e) => {
-                    if (!e.target.value) {
-                      e.target.type = "text";
-                    }
-                  }}
-                  placeholder="Select date of joining"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  type="date"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:opacity-0"
+                  style={{ colorScheme: 'light' }}
                 />
-                <CalendarMonthIcon className="absolute right-3 top-3 text-gray-400 pointer-events-none" />
+                <CalendarMonthIcon
+                  className="absolute right-3 top-3 text-gray-400 cursor-pointer"
+                  onClick={(e) => {
+                    e.currentTarget.previousSibling.showPicker?.();
+                  }}
+                />
               </div>
             </div>
             <div>
