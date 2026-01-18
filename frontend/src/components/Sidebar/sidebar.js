@@ -3,7 +3,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import GroupIcon from "@mui/icons-material/Group";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import sidebarBg from "./sidebar_bg.png";
 
 const Sidebar = () => {
   const [greeting, setGreeting] = useState("");
@@ -33,13 +32,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div
-      className="w-full md:w-1/4 h-auto md:h-screen md:sticky top-0 border-b-2 md:border-b-0 md:border-r-2 md:border-gray-700 text-white pt-20 pb-3 px-3 md:p-5 font-extralight flex flex-col justify-center md:justify-start items-center md:items-stretch z-50 bg-cover bg-center bg-no-repeat relative"
-      style={{
-        backgroundImage: `url(${sidebarBg})`
-      }}
-    >
-      <div className="absolute inset-0 bg-black bg-opacity-80 z-[-1]" />
+    <div className="w-full md:w-1/4 h-auto md:h-screen md:sticky top-0 border-b-2 md:border-b-0 md:border-r-2 md:border-gray-700 bg-black text-white pt-20 pb-3 px-3 md:p-5 font-extralight flex flex-col justify-center md:justify-start items-center md:items-stretch z-50">
 
       {/* Branding - Centered */}
       <div className="text-2xl md:text-3center font-bold md:font-normal truncate mb-2 md:mb-5 text-center">
