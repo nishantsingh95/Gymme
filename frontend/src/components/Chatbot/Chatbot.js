@@ -15,6 +15,7 @@ const Chatbot = () => {
     ]);
     const [inputValue, setInputValue] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [cooldown, setCooldown] = useState(0);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -25,13 +26,22 @@ const Chatbot = () => {
         scrollToBottom();
     }, [messages, isOpen]);
 
+    // Cooldown timer
+    useEffect(() => {
+        if (cooldown > 0) {
+            const timer = setTimeout(() => setCooldown(cooldown - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [cooldown]);
+
     const handleSendMessage = async () => {
-        if (!inputValue.trim()) return;
+        if (!inputValue.trim() || cooldown > 0) return;
 
         const userMessage = { role: "user", text: inputValue };
         setMessages((prev) => [...prev, userMessage]);
         setInputValue("");
         setIsLoading(true);
+        setCooldown(10); // 10 second cooldown
 
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:4000'}/ai/chat`, {
@@ -43,11 +53,20 @@ const Chatbot = () => {
         } catch (error) {
             console.error("Chat Error:", error);
             const serverMsg = error.response?.data?.error;
-            const fallbackMsg = "Sorry, I am having trouble connecting. Please check your API Key or try again later.";
+            const details = error.response?.data?.details;
+
+            let errorText = serverMsg || "Sorry, I am having trouble connecting.";
+
+            // Add helpful message for rate limit errors
+            if (serverMsg?.includes("Rate Limit")) {
+                errorText += " Please wait a moment before sending another message.";
+            } else if (details) {
+                errorText += ` (${details})`;
+            }
 
             const errorMessage = {
                 role: "bot",
-                text: serverMsg || fallbackMsg,
+                text: errorText,
             };
             setMessages((prev) => [...prev, errorMessage]);
         } finally {
@@ -56,7 +75,7 @@ const Chatbot = () => {
     };
 
     const handleKeyPress = (e) => {
-        if (e.key === "Enter") handleSendMessage();
+        if (e.key === "Enter" && cooldown === 0) handleSendMessage();
     };
 
     return (
@@ -102,22 +121,30 @@ const Chatbot = () => {
                     </div>
 
                     {/* Input Area */}
-                    <div className="p-3 bg-white border-t border-gray-100 flex gap-2 items-center">
-                        <input
-                            type="text"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={handleKeyPress}
-                            placeholder="Ask me anything..."
-                            className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-gray-700"
-                        />
-                        <button
-                            onClick={handleSendMessage}
-                            disabled={isLoading || !inputValue.trim()}
-                            className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md active:scale-95"
-                        >
-                            <SendIcon fontSize="small" />
-                        </button>
+                    <div className="p-3 bg-white border-t border-gray-100 flex flex-col gap-2">
+                        {cooldown > 0 && (
+                            <div className="text-xs text-center text-amber-600 bg-amber-50 py-1 px-2 rounded-full">
+                                ⏱️ Please wait {cooldown}s before next message
+                            </div>
+                        )}
+                        <div className="flex gap-2 items-center">
+                            <input
+                                type="text"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyDown={handleKeyPress}
+                                placeholder={cooldown > 0 ? `Wait ${cooldown}s...` : "Ask me anything..."}
+                                disabled={cooldown > 0}
+                                className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-gray-700 disabled:opacity-50"
+                            />
+                            <button
+                                onClick={handleSendMessage}
+                                disabled={isLoading || !inputValue.trim() || cooldown > 0}
+                                className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md active:scale-95"
+                            >
+                                <SendIcon fontSize="small" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
