@@ -61,11 +61,12 @@ const Addmembers = () => {
           return toast.error("No any Membership added yet", {
             className: "text-lg",
           });
-        } else {
+        }
+        /* else {
           let a = response.data.membership[0]._id;
           setSelectedOption(a);
           setInputField({ ...inputField, membership: a });
-        }
+        } */
       })
       .catch((err) => {
         console.log(err);
@@ -145,7 +146,10 @@ const Addmembers = () => {
           onChange={(event) => {
             handleOnChange(event, "joiningDate");
           }}
-          type="date"
+          placeholder="Joining Date"
+          type="text"
+          onFocus={(e) => (e.target.type = "date")}
+          onBlur={(e) => (e.target.type = "text")}
           className="border-2 w-[90%] pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
         />
 
@@ -154,6 +158,7 @@ const Addmembers = () => {
           onChange={handleOnChangeSelect}
           className="border-2 w-[90%] h-12 pt-2 pb-2 border-slate-400 rounded-md placeholder:text-grey"
         >
+          <option value="" disabled>Select Membership</option>
           {membershipList.map((item, index) => {
             return (
               <option key={index} value={item._id}>
