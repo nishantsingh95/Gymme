@@ -3,10 +3,15 @@ import Loader from "../Loader/loader";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { IconButton } from "@mui/material";
+
 const ForgotPassword = ({ handleClose }) => {
   const [emailSubmit, setEmailSubmit] = useState(false);
   const [otpValidate, setOtpValidate] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [contentVal, setContentValue] = useState("Submit Your Email");
   const [inputField, setInputField] = useState({
     email: "",
@@ -113,13 +118,25 @@ const ForgotPassword = ({ handleClose }) => {
       {otpValidate && (
         <div className="w-full mb-6 relative">
           <div className="text-gray-300 mb-2 font-medium">New Password</div>
-          <input
-            type="password"
-            value={inputField.newPassword}
-            onChange={(event) => handleOnChange(event, "newPassword")}
-            className="w-full p-4 rounded-xl bg-gray-800 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner"
-            placeholder="Enter new password"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={inputField.newPassword}
+              onChange={(event) => handleOnChange(event, "newPassword")}
+              className="w-full p-4 rounded-xl bg-gray-800 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-inner pr-12"
+              placeholder="Enter new password"
+            />
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+              <IconButton
+                onClick={() => setShowPassword(!showPassword)}
+                edge="end"
+                size="large"
+                sx={{ color: "gray" }}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </div>
+          </div>
         </div>
       )}
 
