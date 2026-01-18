@@ -105,102 +105,170 @@ const Addmembers = () => {
 
   return (
     <div className="text-black">
-      <div className="grid gap-5 grid-cols-2 text-lg">
-        <input
-          value={inputField.name}
-          onChange={(event) => {
-            handleOnChange(event, "name");
-          }}
-          placeholder="Name of the Joinee"
-          type="text"
-          className="border-2 w-[90%] pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
-        />
-        <input
-          value={inputField.email}
-          onChange={(e) => {
-            handleOnChange(e, "email");
-          }}
-          placeholder="Enter Email"
-          type="email"
-          className="border-2 w-[90%] pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
-        />
-        <input
-          value={inputField.mobileNo}
-          onChange={(event) => {
-            handleOnChange(event, "mobileNo");
-          }}
-          placeholder="Mobile No"
-          type="number"
-          className="border-2 w-[90%] pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
-        />
-        <input
-          value={inputField.address}
-          onChange={(event) => {
-            handleOnChange(event, "address");
-          }}
-          placeholder="Enter Address"
-          type="text"
-          className="border-2 w-[90%] pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
-        />
-        <div className="relative w-[90%]">
-          <input
-            value={inputField.joiningDate}
-            onChange={(event) => {
-              handleOnChange(event, "joiningDate");
-            }}
-            placeholder="Joining Date"
-            type="text"
-            onFocus={(e) => (e.target.type = "date")}
-            onBlur={(e) => (e.target.type = "text")}
-            className="border-2 w-full pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
-          />
-          <CalendarMonthIcon className="absolute right-3 top-3 text-gray-500 pointer-events-none" />
-        </div>
+      {/* White Card Container */}
+      <div className="bg-white rounded-xl p-6 shadow-lg max-h-[80vh] overflow-y-auto">
+        {/* Gradient Header */}
+        <h2 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          Add New Member
+        </h2>
 
-        <select
-          value={selectedOption}
-          onChange={handleOnChangeSelect}
-          className="border-2 w-[90%] h-12 pt-2 pb-2 border-slate-400 rounded-md placeholder:text-grey"
-        >
-          <option value="" disabled>Select Membership</option>
-          {membershipList.map((item, index) => {
-            return (
-              <option key={index} value={item._id}>
-                {item.months} Monthly Membership{" "}
-              </option>
-            );
-          })}
-        </select>
+        {/* Form Fields */}
+        <div className="flex flex-col gap-4">
+          {/* Name and Email Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Name
+              </label>
+              <input
+                value={inputField.name}
+                onChange={(event) => {
+                  handleOnChange(event, "name");
+                }}
+                placeholder="Enter full name"
+                type="text"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                value={inputField.email}
+                onChange={(e) => {
+                  handleOnChange(e, "email");
+                }}
+                placeholder="Enter email"
+                type="email"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
 
-        <input
-          value={inputField.slotTiming}
-          onChange={(event) => {
-            handleOnChange(event, "slotTiming");
-          }}
-          placeholder="Slot Timing (e.g., Morning)"
-          type="text"
-          className="border-2 w-[90%] pl-3 pr-3 pt-2 pb-2 border-slate-400 rounded-md h-12"
-        />
+          {/* Mobile and Address Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Mobile Number
+              </label>
+              <input
+                value={inputField.mobileNo}
+                onChange={(event) => {
+                  handleOnChange(event, "mobileNo");
+                }}
+                placeholder="Enter mobile number"
+                type="number"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Address
+              </label>
+              <input
+                value={inputField.address}
+                onChange={(event) => {
+                  handleOnChange(event, "address");
+                }}
+                placeholder="Enter address"
+                type="text"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
 
-        <input type="file" onChange={(e) => uploadImage(e)} />
+          {/* Date and Membership Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Joining Date
+              </label>
+              <div className="relative">
+                <input
+                  value={inputField.joiningDate}
+                  onChange={(event) => {
+                    handleOnChange(event, "joiningDate");
+                  }}
+                  placeholder="Select joining date"
+                  type="text"
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => (e.target.type = "text")}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+                <CalendarMonthIcon className="absolute right-3 top-3 text-gray-400 pointer-events-none" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Membership Plan
+              </label>
+              <select
+                value={selectedOption}
+                onChange={handleOnChangeSelect}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="" disabled>Select Membership</option>
+                {membershipList.map((item, index) => {
+                  return (
+                    <option key={index} value={item._id}>
+                      {item.months} Monthly Membership
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
 
-        <div className="w-[100px] h-[100px]">
-          <img
-            src={inputField.profilePic}
-            className="w-full h-full rounded-full"
-          />
-          {imageLoader && (
-            <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
-              <LinearProgress color="secondary" />
-            </Stack>
-          )}
-        </div>
+          {/* Slot Timing */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Slot Timing
+            </label>
+            <input
+              value={inputField.slotTiming}
+              onChange={(event) => {
+                handleOnChange(event, "slotTiming");
+              }}
+              placeholder="e.g., Morning (6 AM - 10 AM)"
+              type="text"
+              className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
 
-        <div
-          onClick={() => handleRegisterButton()}
-          className="p-3 border-2 w-28 text-lg h-14 text-center bg-slate-900 text-white rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-        >
-          Register
+          {/* Profile Picture Upload */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Profile Picture
+            </label>
+            <div className="flex items-center gap-4">
+              <input
+                type="file"
+                onChange={(e) => uploadImage(e)}
+                className="flex-1 bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+              <div className="w-16 h-16 flex-shrink-0">
+                <img
+                  src={inputField.profilePic}
+                  className="w-full h-full rounded-full object-cover border-2 border-gray-200"
+                  alt="Profile"
+                />
+              </div>
+            </div>
+            {imageLoader && (
+              <Stack sx={{ width: "100%", color: "grey.500", mt: 1 }} spacing={2}>
+                <LinearProgress color="secondary" />
+              </Stack>
+            )}
+          </div>
+
+          {/* Register Button */}
+          <button
+            onClick={() => handleRegisterButton()}
+            className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-lg font-semibold py-3 rounded-lg hover:shadow-lg transition-shadow duration-200 mt-2"
+          >
+            Register Member
+          </button>
         </div>
       </div>
       <ToastContainer />

@@ -50,39 +50,67 @@ const AddmemberShip = ({ handleClose }) => {
 
   return (
     <div className="text-black">
-      <div className="flex flex-wrap gap-5 items-center justify-center">
-        {membership.map((item, index) => {
-          return (
-            <div className="text-lg bg-slate-900 text-white border-2 pl-2 pr-2 flex-col gap-3 justify-between pt-1 pb-1 rounded-xl font-semibold hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-              <div>{item.months} Months Membership</div>
-              <div>Rs {item.price}</div>
+      {/* White Card Container */}
+      <div className="bg-white rounded-xl p-6 shadow-lg">
+        {/* Gradient Header */}
+        <h2 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          Add New Membership
+        </h2>
+
+        {/* Existing Memberships */}
+        {membership.length > 0 && (
+          <>
+            <div className="flex flex-wrap gap-3 items-center justify-center mb-6">
+              {membership.map((item, index) => {
+                return (
+                  <div key={index} className="text-sm bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg font-semibold">
+                    <div>{item.months} Months</div>
+                    <div>₹{item.price}</div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
-      </div>
-      <hr className="mt-10 mb-10" />
-      <div className="flex flex-col gap-4 mb-10 items-stretch">
-        <input
-          value={inputField.months}
-          onChange={(event) => handleOnChange(event, "months")}
-          className="border-2 rounded-lg text-lg w-full p-2"
-          type="number"
-          placeholder="No. of Months"
-        />
-        <input
-          value={inputField.price}
-          onChange={(event) => handleOnChange(event, "price")}
-          className="border-2 rounded-lg text-lg w-full p-2"
-          type="number"
-          placeholder="Price"
-        />
-        <div
-          onClick={() => {
-            handleAddmembership();
-          }}
-          className="text-lg border-2 p-2 w-full whitespace-nowrap rounded-xl cursor-pointer hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-center text-white"
-        >
-          Add +
+            <hr className="my-6 border-gray-200" />
+          </>
+        )}
+
+        {/* Input Fields */}
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Duration (Months)
+            </label>
+            <input
+              value={inputField.months}
+              onChange={(event) => handleOnChange(event, "months")}
+              className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              type="number"
+              placeholder="e.g. 6"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Amount
+            </label>
+            <input
+              value={inputField.price}
+              onChange={(event) => handleOnChange(event, "price")}
+              className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              type="number"
+              placeholder="e.g. 5000"
+            />
+          </div>
+
+          {/* Gradient Button */}
+          <button
+            onClick={() => {
+              handleAddmembership();
+            }}
+            className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white text-lg font-semibold py-3 rounded-lg hover:shadow-lg transition-shadow duration-200 mt-2"
+          >
+            Add Membership
+          </button>
         </div>
       </div>
       <ToastContainer />
