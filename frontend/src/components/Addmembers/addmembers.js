@@ -191,9 +191,9 @@ const Addmembers = () => {
                     handleOnChange(event, "joiningDate");
                   }}
                   type="date"
+                  placeholder="YYYY-MM-DD"
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg text-base p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
-                <CalendarMonthIcon className="absolute right-3 top-3 text-gray-400 pointer-events-none" />
               </div>
             </div>
             <div>
