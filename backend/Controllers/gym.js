@@ -35,6 +35,7 @@ exports.register = async (req, res) => {
         });
     }
   } catch (err) {
+    console.error("Register Error:", err);
     res.status(500).json({
       error: "Server Error",
     });
@@ -68,6 +69,7 @@ exports.login = async (req, res) => {
       res.status(400).json({ error: "Invalid credentials" });
     }
   } catch (err) {
+    console.error("Login Error:", err);
     res.status(500).json({
       error: "Server Error",
     });
@@ -113,6 +115,7 @@ exports.sendOtp = async (req, res) => {
       return res.status(400).json({ error: "Gym not found" });
     }
   } catch (err) {
+    console.error("Send OTP Error:", err);
     res.status(500).json({
       error: "Server Error",
     });
@@ -133,6 +136,7 @@ exports.checkOtp = async (req, res) => {
     }
     res.status(200).json({ message: "OTP is Successfully Verified" });
   } catch (err) {
+    console.error("Check OTP Error:", err);
     res.status(500).json({
       error: "Server Error",
     });
@@ -160,6 +164,7 @@ exports.resetPassword = async (req, res) => {
 
     res.status(200).json({ message: "Password Reset Successfully" });
   } catch (err) {
+    console.error("Reset Password Error:", err);
     res.status(500).json({
       error: "Server Error",
     });

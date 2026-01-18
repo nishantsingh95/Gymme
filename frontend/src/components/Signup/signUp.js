@@ -5,6 +5,9 @@ import axios from "axios";
 import Stack from "@mui/material/Stack";
 import LinearProgress from "@mui/material/LinearProgress";
 import { ToastContainer, toast } from "react-toastify";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { IconButton } from "@mui/material";
 
 const SignUp = ({ handleToggle }) => {
   const [inputField, setInputField] = useState({
@@ -16,6 +19,7 @@ const SignUp = ({ handleToggle }) => {
       "https://c4.wallpaperflare.com/wallpaper/199/924/33/muscle-muscle-bodybuilding-press-wallpaper-preview.jpg",
   });
   const [loaderImage, setLoaderImage] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleOnChange = (event, name) => {
     setInputField({ ...inputField, [name]: event.target.value });
@@ -153,15 +157,30 @@ const SignUp = ({ handleToggle }) => {
           className="w-full mb-4 p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-gray-300 border border-gray-500 focus:outline-none focus:border-white transition-colors"
           placeholder="Enter UserName"
         />
-        <input
-          type="password"
-          value={inputField.password}
-          onChange={(event) => {
-            handleOnChange(event, "password");
-          }}
-          className="w-full mb-4 p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-gray-300 border border-gray-500 focus:outline-none focus:border-white transition-colors"
-          placeholder="Enter Password"
-        />
+        <div className="relative w-full mb-4">
+          <input
+            type={showPassword ? "text" : "password"}
+            value={inputField.password}
+            onChange={(event) => {
+              handleOnChange(event, "password");
+            }}
+            className="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-gray-300 border border-gray-500 focus:outline-none focus:border-white transition-colors"
+            placeholder="Enter Password"
+          />
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+            <IconButton
+              onClick={() => setShowPassword(!showPassword)}
+              edge="end"
+              size="large"
+            >
+              {showPassword ? (
+                <VisibilityOff sx={{ color: "white" }} />
+              ) : (
+                <Visibility sx={{ color: "white" }} />
+              )}
+            </IconButton>
+          </div>
+        </div>
         <div className="mb-2 text-white text-sm">Upload Profile Pic:</div>
         <input
           type="file"

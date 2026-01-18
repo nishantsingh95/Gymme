@@ -4,9 +4,13 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import Modal from "../Modal/modal";
 import ForgotPassword from "../ForgotPassword/forgotPassword";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { IconButton } from "@mui/material";
 
 const Login = ({ handleToggle }) => {
   const [loginField, setLoginField] = useState({ userName: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -63,15 +67,30 @@ const Login = ({ handleToggle }) => {
         className="w-full mb-6 p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-gray-300 border border-gray-500 focus:outline-none focus:border-white transition-colors"
         placeholder="Username"
       />
-      <input
-        value={loginField.password}
-        onChange={(event) => {
-          handleOnChange(event, "password");
-        }}
-        type="password"
-        className="w-full mb-8 p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-gray-300 border border-gray-500 focus:outline-none focus:border-white transition-colors"
-        placeholder="Password"
-      />
+      <div className="relative w-full mb-8">
+        <input
+          value={loginField.password}
+          onChange={(event) => {
+            handleOnChange(event, "password");
+          }}
+          type={showPassword ? "text" : "password"}
+          className="w-full p-3 rounded-xl bg-white bg-opacity-20 text-white placeholder-gray-300 border border-gray-500 focus:outline-none focus:border-white transition-colors"
+          placeholder="Password"
+        />
+        <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+          <IconButton
+            onClick={() => setShowPassword(!showPassword)}
+            edge="end"
+            size="large"
+          >
+            {showPassword ? (
+              <VisibilityOff sx={{ color: "white" }} />
+            ) : (
+              <Visibility sx={{ color: "white" }} />
+            )}
+          </IconButton>
+        </div>
+      </div>
       <div
         className="w-full py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-xl text-white text-center text-lg font-bold cursor-pointer hover:opacity-90 transition-opacity shadow-lg"
         onClick={() => {
