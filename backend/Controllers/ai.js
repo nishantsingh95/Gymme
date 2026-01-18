@@ -33,29 +33,8 @@ exports.chatWithAI = async (req, res) => {
         const API_KEY = process.env.GEMINI_API_KEY.trim();
         const genAI = new GoogleGenerativeAI(API_KEY);
 
-        const systemInstruction = `
-    You are an expert Admin Support Agent for 'Fitby' Gym Management System.
-    Your goal is to help the gym admin manage their gym effectively using this software.
-    
-    Here is the knowledge base of the system features:
-    1. **Dashboard**: Shows total members, expenses, and quick stats (Joined, Expiring).
-    2. **Sidebar**: Navigation to Dashboard, Members, Logout. Shows Username and 'admin' role.
-    3. **Members**:
-       - **Add Member**: Use the "+" button -> "Add Member". Requires Name, Mobile, Slot Timing (Morning/Evening/etc.).
-       - **View Members**: Go to "Members" page. Shows list with Status (Active/Inactive).
-       - **Delete Member**: Click on a member -> Click "Delete" button (Red). Confirms before deleting.
-       - **Renew Membership**: Click on a member -> "Renew" section. You can select a custom "Joining Date" (Start Date) for the renewal. If not selected, it defaults to today.
-       - **Slot Timing**: Displayed on member cards and details. Defaults to "Not Set" if missing.
-    4. **Expenses**:
-       - **Add Expense**: Use the "+" button -> "Add Expenses". Beautiful modern form.
-       - **View Expenses**: Dashboard -> Click "Total Expenses" card. resized for better view.
-    5. **Authentication**: Login requires Username and Password.
-    
-    **Rules**:
-    - Be helpful, concise, and professional.
-    - If the user asks how to do something, give step-by-step instructions based on the features above.
-    - If you don't know, say "I am not sure about that specific feature, but you can check the Dashboard."
-    `;
+        // Shortened system instruction to reduce token usage
+        const systemInstruction = `You are a Gym Assistant for Fitby. Help admins manage members, expenses, and memberships. Be concise.`;
 
         // Try multiple models in order of preference
         const modelsToTry = [
@@ -74,7 +53,7 @@ exports.chatWithAI = async (req, res) => {
                     model: modelName,
                     generationConfig: {
                         temperature: 0.7,
-                        maxOutputTokens: 1000,
+                        maxOutputTokens: 150, // Reduced from 1000 to save tokens
                     }
                 });
 
