@@ -4,7 +4,7 @@ const sendEmail = require("./utils/mailer");
 
 
 const runExpiryCheck = async () => {
-    console.log("Running expiry check cron job...");
+    console.log("🔍 Running expiry check cron job...");
     try {
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Start of today
@@ -21,9 +21,11 @@ const runExpiryCheck = async () => {
             }
         });
 
-        console.log(`Found ${expiringMembers.length} members expiring soon.`);
+        console.log(`📊 Found ${expiringMembers.length} members expiring within 3 days.`);
 
+        let emailsSent = 0;
         for (const member of expiringMembers) {
+            console.log(`   Processing: ${member.name} (${member.email}) - Expires: ${new Date(member.nextBillDate).toLocaleDateString()}`);
             if (member.email) {
                 const subject = "Membership Expiry Reminder";
                 const html = `
@@ -35,17 +37,21 @@ const runExpiryCheck = async () => {
             </div>
         `;
                 await sendEmail(member.email, subject, html);
+                emailsSent++;
+            } else {
+                console.log(`   ⚠️  Skipped: ${member.name} (no email address)`);
             }
         }
-        return { message: "Expiry check completed", count: expiringMembers.length };
+        console.log(`✅ Expiry check completed. Emails sent: ${emailsSent}/${expiringMembers.length}`);
+        return { message: "Expiry check completed", count: expiringMembers.length, emailsSent };
     } catch (error) {
-        console.error("Error in cron job:", error);
+        console.error("❌ Error in cron job:", error);
         throw error;
     }
 };
 
 const runStatusUpdate = async () => {
-    console.log("Running status update cron job...");
+    console.log("🔄 Running status update cron job...");
     try {
         const today = new Date();
 
@@ -60,17 +66,17 @@ const runStatusUpdate = async () => {
             }
         );
 
-        console.log(`Updated ${result.modifiedCount} members to Inactive status.`);
+        console.log(`✅ Updated ${result.modifiedCount} members to Inactive status.`);
         return { message: "Status update completed", modifiedCount: result.modifiedCount };
 
     } catch (error) {
-        console.error("Error in status update cron job:", error);
+        console.error("❌ Error in status update cron job:", error);
         throw error;
     }
 };
 
 const runExpiredMembersReminder = async () => {
-    console.log("Running expired members reminder cron job...");
+    console.log("📬 Running expired members reminder cron job...");
     try {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -81,11 +87,14 @@ const runExpiredMembersReminder = async () => {
             nextBillDate: { $lt: today }
         });
 
-        console.log(`Found ${expiredMembers.length} members with expired memberships.`);
+        console.log(`📊 Found ${expiredMembers.length} members with expired memberships.`);
 
+        let emailsSent = 0;
         for (const member of expiredMembers) {
+            const daysExpired = Math.floor((today - new Date(member.nextBillDate)) / (1000 * 60 * 60 * 24));
+            console.log(`   Processing: ${member.name} (${member.email}) - Expired ${daysExpired} days ago`);
+
             if (member.email) {
-                const daysExpired = Math.floor((today - new Date(member.nextBillDate)) / (1000 * 60 * 60 * 24));
                 const subject = "Membership Expired - Renewal Required";
                 const html = `
             <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -100,12 +109,15 @@ const runExpiredMembersReminder = async () => {
             </div>
         `;
                 await sendEmail(member.email, subject, html);
-                console.log(`Sent expired membership reminder to ${member.email}`);
+                emailsSent++;
+            } else {
+                console.log(`   ⚠️  Skipped: ${member.name} (no email address)`);
             }
         }
-        return { message: "Expired members reminder completed", count: expiredMembers.length };
+        console.log(`✅ Expired members reminder completed. Emails sent: ${emailsSent}/${expiredMembers.length}`);
+        return { message: "Expired members reminder completed", count: expiredMembers.length, emailsSent };
     } catch (error) {
-        console.error("Error in expired members reminder cron job:", error);
+        console.error("❌ Error in expired members reminder cron job:", error);
         throw error;
     }
 };

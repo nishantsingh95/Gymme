@@ -44,13 +44,18 @@ exports.register = async (req, res) => {
 
 const cookieOptions = {
   httpOnly: true,
-  secure: true, //set to true in production
-  sameSite: "Lax",
+  secure: process.env.NODE_ENV === 'production', // Only use secure cookies in production
+  sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // 'None' for cross-site in production, 'Lax' for localhost
+  path: '/', // Ensure cookie is available for all paths
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
 };
 
 exports.login = async (req, res) => {
   try {
     const { userName, password } = req.body;
+
+    console.log(`🔐 Login attempt for user: ${userName}`);
+    console.log(`📝 Cookie options:`, cookieOptions);
 
     const gym = await Gym.findOne({ userName });
 
@@ -59,6 +64,8 @@ exports.login = async (req, res) => {
 
       res.cookie("cookie_token", token, cookieOptions);
 
+      console.log(`✅ Login successful for: ${userName}`);
+
       res.json({
         message: "Logged in successfully",
         success: "true",
@@ -66,10 +73,12 @@ exports.login = async (req, res) => {
         token,
       });
     } else {
+      console.log(`❌ Login failed for: ${userName} - Invalid credentials`);
       res.status(400).json({ error: "Invalid credentials" });
     }
   } catch (err) {
-    console.error("Login Error:", err);
+    console.error("❌ Login Error:", err.message);
+    console.error("Stack:", err.stack);
     res.status(500).json({
       error: "Server Error",
     });
