@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { runExpiredMembersReminder } = require("../../backend/cron");
+const { runExpiredMembersReminder } = require("../backend/cron");
 
 // Connect to database
 const connectDB = async () => {

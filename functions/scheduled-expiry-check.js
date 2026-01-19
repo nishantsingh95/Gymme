@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { runExpiryCheck } = require("../../backend/cron");
+const { runExpiryCheck } = require("../backend/cron");
 
 // Connect to database
 const connectDB = async () => {
