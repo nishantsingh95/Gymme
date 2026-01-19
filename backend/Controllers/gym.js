@@ -107,7 +107,7 @@ exports.sendOtp = async (req, res) => {
 
       //for email sending
       const mailOptions = {
-        from: "nishantsingh8195@gmail.com",
+        from: process.env.SENDER_EMAIL,
         to: email,
         subject: "Password Reset",
         text: `Your requested a password reset. Your OTP is : ${token}`,
