@@ -1,5 +1,14 @@
 const mongoose = require("mongoose");
-const { runStatusUpdate } = require("../backend/cron");
+
+// Member Schema
+const memberSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    nextBillDate: Date,
+    status: String,
+});
+
+const Member = mongoose.models.Member || mongoose.model("Member", memberSchema);
 
 // Connect to database
 const connectDB = async () => {
@@ -14,19 +23,27 @@ exports.handler = async (event, context) => {
     console.log("🔄 Scheduled: Status update starting...");
 
     try {
-        // Connect to database
         await connectDB();
 
-        // Run the status update
-        const result = await runStatusUpdate();
+        const today = new Date();
 
-        console.log("✅ Scheduled: Status update completed", result);
+        const result = await Member.updateMany(
+            {
+                status: "Active",
+                nextBillDate: { $lt: today }
+            },
+            {
+                $set: { status: "Inactive" }
+            }
+        );
+
+        console.log(`✅ Scheduled: Updated ${result.modifiedCount} members to Inactive status.`);
 
         return {
             statusCode: 200,
             body: JSON.stringify({
                 message: "Status update completed successfully",
-                ...result
+                modifiedCount: result.modifiedCount
             })
         };
     } catch (error) {
