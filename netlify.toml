@@ -23,12 +23,9 @@
 # Scheduled Functions for Automated Emails
 [functions."scheduled-expiry-check"]
   schedule = "0 9 * * *"  # 9:00 AM daily (UTC)
-  external_node_modules = ["mongoose", "nodemailer", "bcryptjs", "jsonwebtoken"]
 
 [functions."scheduled-expired-reminder"]
   schedule = "0 10 * * *"  # 10:00 AM daily (UTC)
-  external_node_modules = ["mongoose", "nodemailer", "bcryptjs", "jsonwebtoken"]
 
 [functions."scheduled-status-update"]
   schedule = "0 0 * * *"  # 12:00 AM daily (UTC)
-  external_node_modules = ["mongoose", "nodemailer", "bcryptjs", "jsonwebtoken"]
