@@ -93,7 +93,7 @@ const Dashboard = () => {
 
   return (
     <div className="w-full md:w-3/4 text-black p-3 md:p-5 relative overflow-y-auto h-full pb-20">
-      <div className="w-full bg-slate-900 text-white rounded-lg flex p-3 justify-between items-center">
+      <div className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg flex p-3 justify-between items-center -mt-2">
         <MenuIcon
           sx={{ cursor: "pointer" }}
           onClick={() => {
