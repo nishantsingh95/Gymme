@@ -59,8 +59,14 @@ const { startCronJobs } = require("./cron");
 
 // Only start cron jobs in development (not in Netlify Functions)
 // In production, Netlify Scheduled Functions handle this
-if (process.env.NODE_ENV !== 'production') {
+// Check for both NODE_ENV and NETLIFY environment variable
+const isNetlifyProduction = process.env.NETLIFY === 'true' || process.env.NODE_ENV === 'production';
+
+if (!isNetlifyProduction) {
+  console.log("🔄 Starting cron jobs (development mode)");
   startCronJobs();
+} else {
+  console.log("⏭️  Skipping cron jobs (using Netlify Scheduled Functions)");
 }
 
 if (process.env.NODE_ENV !== 'production') {
