@@ -13,7 +13,7 @@ const Member = mongoose.models.Member || mongoose.model("Member", memberSchema);
 
 // Email transporter
 const createTransporter = () => {
-    return nodemailer.createTransporter({
+    return nodemailer.createTransport({
         service: "gmail",
         auth: {
             user: process.env.SENDER_EMAIL,
