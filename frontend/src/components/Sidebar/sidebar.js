@@ -32,7 +32,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-full md:w-1/4 h-auto md:h-screen md:sticky top-0 border-b-2 md:border-b-0 md:border-r-2 md:border-gray-700 bg-slate-900 text-white pt-2 md:pt-20 pb-3 px-3 md:p-5 font-extralight flex flex-col justify-center md:justify-start items-center md:items-stretch z-50">
+    <div className="w-full md:w-1/4 h-auto md:h-screen md:sticky top-0 border-b-2 md:border-b-0 md:border-r-2 md:border-gray-700 bg-slate-900 text-white pt-2 md:pt-10 pb-3 px-3 md:p-5 font-extralight flex flex-col justify-center md:justify-start items-center md:items-stretch z-50">
 
       {/* Branding - Centered */}
       <div className="text-2xl md:text-3center font-bold md:font-normal truncate mb-1 md:mb-5 text-center">
