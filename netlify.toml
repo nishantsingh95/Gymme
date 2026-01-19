@@ -19,3 +19,17 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Scheduled Functions for Automated Emails
+[[functions]]
+  path = "scheduled/expiry-check"
+  schedule = "0 9 * * *"  # 9:00 AM daily (UTC)
+
+[[functions]]
+  path = "scheduled/expired-reminder"
+  schedule = "0 10 * * *"  # 10:00 AM daily (UTC)
+
+[[functions]]
+  path = "scheduled/status-update"
+  schedule = "0 0 * * *"  # 12:00 AM daily (UTC)
+

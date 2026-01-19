@@ -56,7 +56,12 @@ app.use("/.netlify/functions/api", router);
 app.use("/", router);
 
 const { startCronJobs } = require("./cron");
-startCronJobs();
+
+// Only start cron jobs in development (not in Netlify Functions)
+// In production, Netlify Scheduled Functions handle this
+if (process.env.NODE_ENV !== 'production') {
+  startCronJobs();
+}
 
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
