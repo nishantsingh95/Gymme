@@ -227,7 +227,6 @@ exports.expiredMember = async (req, res) => {
 
     const member = await Member.find({
       gym: req.gym._id,
-      status: "Active",
       nextBillDate: {
         $lte: today,
       },
@@ -248,7 +247,7 @@ exports.expiredMember = async (req, res) => {
 
 exports.inActiveMember = async (req, res) => {
   try {
-    const member = await Member.find({ gym: req.gym._id, status: "Pending" });
+    const member = await Member.find({ gym: req.gym._id, status: { $in: ["Pending", "Inactive"] } });
     res.status(200).json({
       message: member.length
         ? "Fetched Members SuccessFully"

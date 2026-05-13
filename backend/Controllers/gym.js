@@ -80,7 +80,7 @@ exports.login = async (req, res) => {
     console.error("❌ Login Error:", err.message);
     console.error("Stack:", err.stack);
     res.status(500).json({
-      error: "Server Error",
+      error: err.message || "Server Error",
     });
   }
 };
@@ -180,7 +180,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
-exports.logout = async () => {
+exports.logout = async (req, res) => {
   res
     .clearCookie("cookie_token", cookieOptions)
     .json({ message: "Logged out successfully" });
