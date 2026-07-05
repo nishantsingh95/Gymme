@@ -36,7 +36,18 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
-require("./DBConn/conn");
+const connectDB = require("./DBConn/conn");
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("DB connection error in middleware:", err.message);
+    res.status(500).json({ error: "Database connection failed", details: err.message });
+  }
+});
+
 
 const GymRoutes = require("./Routes/gym");
 const MembershipRoutes = require("./Routes/membership");

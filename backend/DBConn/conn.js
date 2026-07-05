@@ -1,11 +1,31 @@
 const mongoose = require("mongoose");
-console.log("Attempting to connect to DB...");
-mongoose
-  .connect(process.env.DATABASE, {
-    serverSelectionTimeoutMS: 5000 // Fail after 5 seconds if not connected
-  })
-  .then(() => console.log("DB connection successfull"))
-  .catch((err) => {
-    console.log("DB Connection Failed:");
-    console.log(err);
+
+const connectDB = async () => {
+  if (!process.env.DATABASE) {
+    throw new Error("DATABASE environment variable is not defined");
+  }
+
+  if (mongoose.connection.readyState === 1) {
+    return;
+  }
+
+  console.log("Awaiting DB connection...");
+  await mongoose.connect(process.env.DATABASE, {
+    serverSelectionTimeoutMS: 5000
   });
+};
+
+// Start connection on load
+if (process.env.DATABASE) {
+  mongoose.connect(process.env.DATABASE, {
+    serverSelectionTimeoutMS: 5000
+  }).then(() => {
+    console.log("DB Connection successful on startup");
+  }).catch((err) => {
+    console.error("DB Connection failed on startup:", err.message);
+  });
+} else {
+  console.warn("DATABASE environment variable is missing on startup");
+}
+
+module.exports = connectDB;
